@@ -1,0 +1,33 @@
+<%# <%= render 'form' %> 
+<%= form_with(model: @blog, local: true, url: {action: 'confirm'}) do |form| %>
+  <% if @blog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @blog.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :post_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content, id: :post_content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :day %>
+    <%= form.date_select :day, id: :post_day %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "確認画面へ" %>
+  </div>
+<% end %> 
