@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
     return render :new if params[:back]
 
     if @blog.save
-      redirect_to  blog_path(@blog), notice:"投稿しました"
+      redirect_to  blogs_path, notice:"投稿しました"
     else
       render :new
     end
@@ -20,20 +20,25 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.find(params[:id])
+    @blog = Blog.find_by(id: params[:id])
+    unless @blog
+      redirect_to blogs_path, notice: "指定されたブログは見つかりませんでした"
+    end
   end
+  
 
   def edit
+    @blog = Blog.find(params[:id])
+    
+  end
+
+  def update
     @blog = Blog.find(params[:id])
     if @blog.update(blog_params)
       redirect_to blogs_path, notice: "ブログを編集しました"
     else
       render :edit
     end
-  end
-
-  def update
-    @blog = Blog.find(params[:id])
   end
 
   def confirm
@@ -43,7 +48,7 @@ class BlogsController < ApplicationController
   end
 
   def destroy
-    @blogs = Blog.find(params[:id])
+    @blog = Blog.find(params[:id])
     @blog.destroy
     redirect_to blog_path, notice:"削除しました"
   end
